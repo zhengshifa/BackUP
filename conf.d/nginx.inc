@@ -1,6 +1,6 @@
 #  fastdfs 备份参数
 
-START_BACKUP="no"
+START_BACKUP="yes"
 REMOTE_HOST="127.0.0.1"
 REMOTE_USER="root"
 REMOTE_PORT="10022"

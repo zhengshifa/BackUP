@@ -1,4 +1,4 @@
-name: Deploy to Remote Host
+name: backup to Remote Host
 
 on:
   push:
@@ -6,13 +6,13 @@ on:
       - main  # 根据需要调整分支名称
 
 jobs:
-  deploy:
+  backup:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Deploy to Remote Host
+      - name: backup to Remote Host
         uses: cross-the-world/ssh-scp-ssh-pipelines@latest
         with:
           host: ${{ secrets.DEPLOY_HOST }}
