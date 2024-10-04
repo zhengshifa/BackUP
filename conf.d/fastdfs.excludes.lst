@@ -1,0 +1,4 @@
+# 排除备份列表
+
+storage/logs/
+tracker/logs/
