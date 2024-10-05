@@ -69,8 +69,10 @@ if [ -r "$profile_file" ]; then
     fi
 
     # Execute the command
-    echo -e "\n\n\n=======$(date +"%Y-%m-%d-%H:%M:%S")=======" >> ${config_dir}/.logs/${profile}-err.log
-    eval "$cmd 2>>${config_dir}/.logs/${profile}-err.log"
+    log_dir=${config_dir}/.logs
+    mkdir -p $log_dir
+    echo -e "\n\n\n=======$(date +"%Y-%m-%d-%H:%M:%S")=======" >> ${log_dir}/${profile}-err.log
+    eval "$cmd 2>>${log_dir}/${profile}-err.log"
 else
     echo "Failed to read the profile file: ${profile_file}" > /dev/stderr
     exit 1
