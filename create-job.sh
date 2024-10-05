@@ -18,7 +18,7 @@ for file in "$base_dir"/conf.d/*.inc; do
         shopt -s nocasematch  #开启不区分大小写
         if [ "$START_BACKUP" == 'yes' ];then
             echo "# rtb_${filename}_bak"  >>/etc/cron.d/rtb
-            echo "${SCHEDULE:-0 */1 * * *} root ${base_dir}/rtb-wrapper.sh backup ${filename}" >> /etc/cron.d/rtb
+            echo "${SCHEDULE:-0 */1 * * *} root ${base_dir}/rtb-wrapper.sh backup ${filename} '' " >> /etc/cron.d/rtb
             mkdir -p -- "$BACKUP_PATH"
             touch "$BACKUP_PATH/backup.marker"
         fi
