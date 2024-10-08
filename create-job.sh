@@ -8,6 +8,10 @@ base_dir="/etc/backup"
 #删除已经有的定时任务
 rm -rf /etc/cron.d/rtb
 
+# 添加监控告警
+echo "backup monitor-alert" >> /etc/cron.d/rtb
+echo "* * * * * root bash $base_dir/monitor-alert.sh " >> /etc/cron.d/rtb
+
 for file in "$base_dir"/conf.d/*.inc; do
     [ -e "$file" ] || continue  # 检查文件是否存在
 
@@ -24,5 +28,6 @@ for file in "$base_dir"/conf.d/*.inc; do
         fi
     )
 done
+
 chmod +644  /etc/cron.d/rtb
 chmod +x  $base_dir/*.sh
