@@ -1,0 +1,30 @@
+name: backup to Remote Host
+
+on:
+  push:
+    branches:
+      - main  # 根据需要调整分支名称
+  workflow_dispatch:  # 添加手动触发
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: backup to Remote Host
+        uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          user: ${{ secrets.DEPLOY_USER }}
+          pass: ${{ secrets.PASS }}
+          connect_timeout: 10s
+          first_ssh: |-
+            rm -rf /etc/backup/*
+            mkdir -p /etc/backup/
+          scp: |-
+            './*' => /etc/backup/
+          last_ssh: |-
+            chmod +x /etc/backup/*.sh
+            sh /etc/backup/create-job.sh
