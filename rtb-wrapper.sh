@@ -73,6 +73,32 @@ if [ -r "$profile_file" ]; then
     mkdir -p $log_dir
     echo -e "\n\n\n=======$(date +"%Y-%m-%d-%H:%M:%S")=======" >> ${log_dir}/${profile}-err.log
     eval "$cmd 2>> ${log_dir}/${profile}-err.log"
+    
+    # Backup verification
+    echo -e "\n[Backup Verification]" >> ${log_dir}/${profile}-err.log
+    if [ "$action" = "backup" ]; then
+        # Check backup file count
+        file_count=$(find $BACKUP_PATH -type f | wc -l)
+        echo "Backup file count: $file_count" >> ${log_dir}/${profile}-err.log
+        
+        # Check backup size
+        backup_size=$(du -sh $BACKUP_PATH | awk '{print $1}')
+        echo "Backup size: $backup_size" >> ${log_dir}/${profile}-err.log
+        
+        # Verify latest backup
+        latest_backup=$(ls -t $BACKUP_PATH | head -n 1)
+        if [ -n "$latest_backup" ]; then
+            echo "Verifying latest backup: $latest_backup" >> ${log_dir}/${profile}-err.log
+            rsync --dry-run --checksum $BACKUP_PATH/$latest_backup $BACKUP_PATH/verify/ >> ${log_dir}/${profile}-err.log 2>&1
+            if [ $? -eq 0 ]; then
+                echo "Backup verification successful" >> ${log_dir}/${profile}-err.log
+            else
+                echo "Backup verification failed" >> ${log_dir}/${profile}-err.log
+            fi
+        else
+            echo "No backup found for verification" >> ${log_dir}/${profile}-err.log
+        fi
+    fi
 else
     echo "Failed to read the profile file: ${profile_file}" > /dev/stderr
     exit 1
