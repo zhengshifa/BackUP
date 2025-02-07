@@ -6,9 +6,19 @@ APPNAME=$(basename "$0" | sed "s/\.sh$//")
 # Log functions
 # -----------------------------------------------------------------------------
 
-fn_log_info()  {TIMESTAMP=$(date +'%Y-%m-%d %H:%M:%S');  echo -e "$APPNAME: $1"; }
-fn_log_warn()  {TIMESTAMP=$(date +'%Y-%m-%d %H:%M:%S');  echo -e "$APPNAME: $TIMESTAMP \033[32m[WARNING]\033[0m $1" 1>&2; }
-fn_log_error() {TIMESTAMP=$(date +'%Y-%m-%d %H:%M:%S');  echo -e "$APPNAME: $TIMESTAMP \033[32m[ERROR]\033[0m $1" 1>&2; }
+fn_log_info() {
+  TIMESTAMP=$(date +'%Y-%m-%d %H:%M:%S')
+  echo -e "$APPNAME: $1"
+}
+fn_log_warn() {
+  TIMESTAMP=$(date +'%Y-%m-%d %H:%M:%S')
+  echo -e "$APPNAME: $TIMESTAMP \033[32m[WARNING]\033[0m $1" 1>&2
+}
+
+fn_log_error() {
+  TIMESTAMP=$(date +'%Y-%m-%d %H:%M:%S')
+  echo -e "$APPNAME: $TIMESTAMP \033[32m[ERROR]\033[0m $1" 1>&2
+}
 fn_log_info_cmd()  {
 	if [ -n "$SSH_DEST_FOLDER_PREFIX" ]; then
 		echo "$APPNAME: $SSH_CMD '$1'";
