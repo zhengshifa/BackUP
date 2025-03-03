@@ -73,7 +73,7 @@ Backup verification successful
 
 ## 恢复备份
 使用 rtb-wrapper.sh 脚本进行恢复:
-默认恢复最新的数据
+默认恢复最新的数据(可以修改conf.d/xxx.inc文件 指定恢复到指定的目录或者时间)
 ```bash
 /etc/backup/rtb-wrapper.sh restore my-service
 ```
